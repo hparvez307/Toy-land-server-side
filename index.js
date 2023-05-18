@@ -41,6 +41,14 @@ async function run() {
         res.send('server is running');
     })
 
+
+    app.get('/toys', async(req, res) => {
+        const result = await toyCollection.find().toArray();
+        res.send(result);
+    })
+
+
+
     app.post('/addAToy', async(req, res) => {
         const body = req.body;
         const result = await toyCollection.insertOne(body);
