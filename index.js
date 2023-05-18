@@ -32,16 +32,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-     client.connect();
+    await client.connect();
 
 
-
+    const toyCollection = client.db('toyLand').collection('toys');
 
     app.get('/', (req, res) => {
         res.send('server is running');
     })
 
-
+    app.post('/addAToy', async(req, res) => {
+        const body = req.body;
+        const result = await toyCollection.insertOne(body);
+        res.send(result);
+    })
     
 
 
