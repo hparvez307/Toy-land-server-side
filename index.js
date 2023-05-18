@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 // express middleware
@@ -32,7 +32,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    client.connect();
 
 
     const toyCollection = client.db('toyLand').collection('toys');
@@ -46,12 +46,37 @@ async function run() {
         const result = await toyCollection.find().toArray();
         res.send(result);
     })
+    app.get('/toys/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await toyCollection.findOne(query);
+        res.send(result);
+    })
+
+
+
+    app.get('/myToys', async(req, res) => {
+        const email = req.query?.email;
+        const query = {sellerEmail: email};
+        const result = await toyCollection.find(query).toArray();
+        res.send(result)
+    })
 
 
 
     app.post('/addAToy', async(req, res) => {
         const body = req.body;
         const result = await toyCollection.insertOne(body);
+        res.send(result);
+    })
+
+
+
+
+    app.delete('/toyDelete/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const result = await toyCollection.deleteOne(query);
         res.send(result);
     })
     
