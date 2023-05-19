@@ -84,13 +84,17 @@ async function run() {
 
         // sorting ascending by price
         app.get("/maxPriceToy", async (req, res) => {
-            const toys = await toyCollection.find({}).sort({ price: -1 }).toArray();
+            const email = req.query?.email;
+            const query = { sellerEmail: email };
+            const toys = await toyCollection.find(query, {}).sort({ price: -1 }).toArray();
             res.send(toys);
         });
 
         // sorting descending by price
         app.get("/minPriceToy", async (req, res) => {
-            const toys = await toyCollection.find({}).sort({ price: 1 }).toArray();
+            const email = req.query?.email;
+            const query = { sellerEmail: email };
+            const toys = await toyCollection.find(query, {}).sort({ price: 1 }).toArray();
             res.send(toys);
         });
 
