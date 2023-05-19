@@ -56,6 +56,14 @@ async function run() {
             res.send(result)
         })
 
+        // toys by sub category
+        app.get('/toysByCategory', async (req, res) => {
+            const sub_category = req.query?.sub_category;
+            const query = { subCategory: sub_category };
+            const result = await toyCollection.find(query).toArray();
+            res.send(result)
+        })
+
 
         // get one toy by id
         app.get('/toys/:id', async (req, res) => {
@@ -102,7 +110,7 @@ async function run() {
 
 
 
-
+        // delete a toy by id
         app.delete('/toyDelete/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
