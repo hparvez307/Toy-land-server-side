@@ -43,7 +43,7 @@ async function run() {
 
         // get all toys
         app.get('/toys', async (req, res) => {
-            const result = await toyCollection.find().toArray();
+            const result = await toyCollection.find().limit(20).toArray();
             res.send(result);
         })
 
@@ -82,17 +82,15 @@ async function run() {
             res.send(result)
         })
 
-
-
         // sorting ascending by price
         app.get("/maxPriceToy", async (req, res) => {
-            const toys = await toyCollection.find({}, { price: 1 }).sort({ price: -1 }).toArray();
+            const toys = await toyCollection.find({}).sort({ price: -1 }).toArray();
             res.send(toys);
         });
 
         // sorting descending by price
         app.get("/minPriceToy", async (req, res) => {
-            const toys = await toyCollection.find({}, { price: 1 }).sort({ price: 1 }).toArray();
+            const toys = await toyCollection.find({}).sort({ price: 1 }).toArray();
             res.send(toys);
         });
 
