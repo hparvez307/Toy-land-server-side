@@ -84,6 +84,20 @@ async function run() {
 
 
 
+        // sorting ascending by price
+        app.get("/maxPriceToy", async (req, res) => {
+            const toys = await toyCollection.find({}, { price: 1 }).sort({ price: -1 }).toArray();
+            res.send(toys);
+        });
+
+        // sorting descending by price
+        app.get("/minPriceToy", async (req, res) => {
+            const toys = await toyCollection.find({}, { price: 1 }).sort({ price: 1 }).toArray();
+            res.send(toys);
+        });
+
+
+
 
         // post toys
         app.post('/addAToy', async (req, res) => {
