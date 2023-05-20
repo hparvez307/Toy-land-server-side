@@ -5,18 +5,14 @@ const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
-// express middleware
 
+
+// express middleware
 app.use(cors());
 app.use(express.json());
 
+
 // mongodb
-
-
-
-
-
-
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mb5zcck.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -33,7 +29,6 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         client.connect();
-
 
         const toyCollection = client.db('toyLand').collection('toys');
 
@@ -125,7 +120,6 @@ async function run() {
         })
 
 
-
         // delete a toy by id
         app.delete('/toyDelete/:id', async (req, res) => {
             const id = req.params.id;
@@ -133,7 +127,6 @@ async function run() {
             const result = await toyCollection.deleteOne(query);
             res.send(result);
         })
-
 
 
 
@@ -146,15 +139,6 @@ async function run() {
     }
 }
 run().catch(console.dir);
-
-
-
-
-
-
-
-
-
 
 
 app.listen(port, () => {
